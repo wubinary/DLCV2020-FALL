@@ -14,13 +14,13 @@ from model import VGG16_FCN32s, VGG16_FCN8s
 def inference(args, dataloader):
     if str(args.model).lower()=='fcn32s':
         model = VGG16_FCN32s(n_classes=7)
-        model.load_state_dict(torch.load('./result/best_fcn32s.pth'))
+        model.load_state_dict(torch.load(f'{args.model_path}/best_fcn32s.pth'))
     elif str(args.model).lower()=='fcn8s':
         model = VGG16_FCN8s(n_classes=7)
-        model.load_state_dict(torch.load('./result/best_fcn8s.pth'))
+        model.load_state_dict(torch.load(f'{args.model_path}/best_fcn8s.pth'))
     else:
         model = UNet(n_channels=3, n_classes=7)
-        model.load_state_dict(torch.load('./result/best_unet.pth'))
+        model.load_state_dict(torch.load(f'{args.model_path}/best_unet.pth'))
     #model = nn.DataParallel(model)
     model.eval()
     model.cuda()
@@ -45,6 +45,12 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Image Segmentation')
     parser.add_argument('--model', type=str, default='fcn32s',
                     help='fcn32s or fcn8s or unet')
+    parser.add_argument('--model_path', type=str, default='./p2/result', 
+                    help='model .pth path')
+    parser.add_argument('--test_dir', type=str, default='../hw2_data/p2_data/validation',
+                    help='test directory')
+    parser.add_argument('--out_dir', type=str, default='../hw2_data/p2_data/validation/pred',
+                    help='predict out directory')
 
     args = parser.parse_args()
     return args 
@@ -54,16 +60,18 @@ if __name__=='__main__':
     args = parse_args()
     
     size=512
-    valid_transform = transforms.Compose([
+    transform = transforms.Compose([
         #transforms.Resize(size),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
-    valid_dataset = p2_Dataset_test('../hw2_data/p2_data/validation', valid_transform)
+    
+    dataset = p2_Dataset_test(args.test_dir, args.out_dir, transform)
 
-    valid_dataloader = DataLoader(valid_dataset,
-                                batch_size=16,
-                                shuffle=False,
-                                num_workers=8)
-    inference(args, valid_dataloader)
+    dataloader = DataLoader(dataset,
+                            batch_size=8,
+                            shuffle=False,
+                            num_workers=8)
+   
+    inference(args, dataloader)
 

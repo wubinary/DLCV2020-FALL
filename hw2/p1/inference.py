@@ -68,7 +68,7 @@ if __name__ == '__main__':
     dataset = p1_Dataset_test(args.test_dir, transform)
     
     dataloader = DataLoader(dataset,
-                            batch_size=32,
+                            batch_size=8,
                             shuffle=False,
                             num_workers=8)
     

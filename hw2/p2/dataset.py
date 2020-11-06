@@ -37,14 +37,13 @@ class p2_Dataset(Dataset):
         return img, lbl_img
 
 class p2_Dataset_test(Dataset):
-    def __init__(self, path=None, transform=None, out_transform=None):
+    def __init__(self, path=None, out_path=None, transform=None):
         assert path is not None
         self.path = path 
         self.data = [("{}/{:04}_sat.jpg".format(path,i),
-                      "{}/pred/{:04}_mask.png".format(path,i)) 
+                      "{}/{:04}_mask.png".format(out_path,i)) 
                     for i in range(257)]
         self.transform = transform
-        self.out_transform = out_transform 
                 
     def __len__(self):
         return len(self.data)
@@ -76,3 +75,4 @@ if __name__ == "__main__":
     for c in range(8):
         print(count_ls[2]/(count_ls[c]+1e-8))
     '''
+
