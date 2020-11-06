@@ -1,3 +1,11 @@
 
+__pycache__
+.ipynb_checkpoints
 hw1/.ipynb_checkpoints
 
+*.pt
+*.pth
+*.swp
+*.pt
+*.png
+*.jpg
