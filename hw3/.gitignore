@@ -1,0 +1,20 @@
+#Ignore the dataset
+#IMPORTANT: make sure that your dataset is stored in a folder with the same as the one specofied below
+
+hw3_data/*
+*png
+*jpg
+
+*swp
+*pth
+.ipynb_checkpoints
+__pycache__
+wandb
+
+SymNets
+p4_1
+p4_2
+pytorch-adda
+
+test_output
+
