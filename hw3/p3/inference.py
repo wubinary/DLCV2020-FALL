@@ -64,7 +64,8 @@ def inference(args):
         
          
     load = torch.load(
-        f"./p3/result/3_2/{args.source}2{args.target}/best_model.pth")
+        f"./p3/result/3_2/{args.source}2{args.target}/best_model.pth",
+        map_location='cpu')
         
     feature_extractor = FeatureExtractor()
     feature_extractor.load_state_dict(load['F'])

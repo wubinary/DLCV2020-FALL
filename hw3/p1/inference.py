@@ -22,7 +22,8 @@ def inference(args):
     latent_dim = 64
 
     model = VanillaVAE(3, latent_dim)
-    model.load_state_dict(torch.load('./p1/result/best_vanilla_vae.pth'))
+    model.load_state_dict(torch.load('./p1/result/best_vanilla_vae.pth',
+                                     map_location='cpu'))
     model.cuda()
 
     np.random.seed(87)

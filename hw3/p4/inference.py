@@ -72,7 +72,8 @@ def inference(args):
                                              num_workers=6)
     
     load = torch.load(
-        f"./p4/result/{args.source}2{args.target}/best_model.pth")
+        f"./p4/result/{args.source}2{args.target}/best_model.pth",
+        map_location='cpu')
         
     model = resnet(args)
     model.load_state_dict(load['M'])

@@ -14,13 +14,16 @@ from model import VGG16_FCN32s, VGG16_FCN8s
 def inference(args, dataloader):
     if str(args.model).lower()=='fcn32s':
         model = VGG16_FCN32s(n_classes=7)
-        model.load_state_dict(torch.load(f'{args.model_path}/best_fcn32s.pth'))
+        model.load_state_dict(torch.load(f'{args.model_path}/best_fcn32s.pth',
+                                         map_location='cpu'))
     elif str(args.model).lower()=='fcn8s':
         model = VGG16_FCN8s(n_classes=7)
-        model.load_state_dict(torch.load(f'{args.model_path}/best_fcn8s.pth'))
+        model.load_state_dict(torch.load(f'{args.model_path}/best_fcn8s.pth',
+                                         map_location='cpu'))
     else:
         model = UNet(n_channels=3, n_classes=7)
-        model.load_state_dict(torch.load(f'{args.model_path}/best_unet.pth'))
+        model.load_state_dict(torch.load(f'{args.model_path}/best_unet.pth',
+                                         map_location='cpu'))
     #model = nn.DataParallel(model)
     model.eval()
     model.cuda()

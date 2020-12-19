@@ -40,9 +40,14 @@ class p2_Dataset_test(Dataset):
     def __init__(self, path=None, out_path=None, transform=None):
         assert path is not None
         self.path = path 
-        self.data = [("{}/{:04}_sat.jpg".format(path,i),
-                      "{}/{:04}_mask.png".format(out_path,i)) 
-                    for i in range(257)]
+        #self.data = [("{}/{:04}_sat.jpg".format(path,i),
+        #              "{}/{:04}_mask.png".format(out_path,i)) 
+        #            for i in range(257)]
+        files = [img_p for img_p in sorted(glob.glob(f'{path}/*.jpg'))]
+        self.data = [
+            (img_p,
+            img_p.replace(path,out_path).replace('sat.jpg','mask.png'))
+            for img_p in files]
         self.transform = transform
                 
     def __len__(self):

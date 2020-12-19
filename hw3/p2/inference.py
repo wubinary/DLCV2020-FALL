@@ -22,7 +22,8 @@ def inference(args):
 
     z_dim = 100
     netG = Generator(z_dim)
-    netG.load_state_dict(torch.load('./p2/result/100_netG.pth'))
+    netG.load_state_dict(torch.load('./p2/result/100_netG.pth',
+                                    map_location='cpu'))
     netG.cuda()
 
     np.random.seed(87)

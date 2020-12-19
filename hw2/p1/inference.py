@@ -1,4 +1,4 @@
-import argparse 
+import os,argparse 
 import pandas as pd
 
 import torch
@@ -19,7 +19,8 @@ def inference(args, dataloader):
     
     # model
     model = Model(50)
-    model.load_state_dict(torch.load('./p1/result/best.pt'))
+    model.load_state_dict(torch.load('./p1/result/best.pt', 
+                                     map_location='cpu'))
     model.to(args.device)
     model.eval()
     
@@ -40,12 +41,12 @@ def inference(args, dataloader):
         pivote += b
         print(f'\t[{pivote}/{len(dataloader.dataset)}]', end='  \r')
     
-    df.to_csv(args.out_csv, index=False)
+    df.to_csv(os.path.join(args.out_csv,"test_pred.csv"), index=False)
     
     
 def parse_args():
     parser = argparse.ArgumentParser(description='Image Classification')
-    parser.add_argument('--device', type=str, default='cuda:0',
+    parser.add_argument('--device', type=str, default='cuda',
                     help='cpu or cuda:0 or cuda:1')
     parser.add_argument('--test_dir', type=str, default='../hw2_data/p1_data/val_50/',
                     help='cpu or cuda:0 or cuda:1')
